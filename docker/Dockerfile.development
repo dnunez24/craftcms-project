@@ -1,0 +1,38 @@
+FROM php:7-fpm-alpine
+MAINTAINER David Nuñez <dnunez24@gmail.com>
+
+ENV CRAFT_VERSION latest
+
+RUN apk add --no-cache --virtual .build-deps \
+    autoconf \
+    build-base \
+    imagemagick-dev \
+    libmcrypt-dev \
+    openssl \
+  && apk add --no-cache \
+    imagemagick \
+    libmcrypt \
+    libtool \
+  && NPROC=$(getconf _NPROCESSORS_ONLN) \
+  && docker-php-ext-install -j$NPROC \
+    dom \
+    mcrypt \
+    pdo \
+    pdo_mysql \
+    reflection \
+    spl \
+  && printf "\n" | pecl install -o imagick \
+  && pecl install -o redis \
+  && docker-php-ext-enable \
+    imagick \
+    opcache \
+    redis
+
+RUN wget -O /tmp/craftcms.zip https://craftcms.com/${CRAFT_VERSION}.zip?accept_license=yes \
+  && mkdir -p /tmp/craftcms \
+  && unzip /tmp/craftcms.zip -d /var/www/html \
+  && rm -rf /tmp/* \
+  && chown -R :www-data /var/www/html \
+  && find /var/www/html -type f -exec chmod 664 {} \; \
+  && find /var/www/html -type d -exec chmod 774 {} \; \
+  && apk del .build-deps

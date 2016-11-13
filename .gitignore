@@ -1,0 +1,5 @@
+.DS_Store
+.env
+src/craft/app
+src/craft/storage
+src/craft/config/license.key
