@@ -1,7 +1,7 @@
 FROM php:7-fpm-alpine
 MAINTAINER David Nuñez <dnunez24@gmail.com>
 
-COPY composer.json
+COPY composer.json composer.json
 
 RUN apk add --no-cache --virtual .build-deps \
     autoconf \
