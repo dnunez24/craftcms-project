@@ -24,10 +24,10 @@ services:
       context: ./docker/app
     volumes:
       - app:/var/www/html
-      - ./src/craft/config:/var/www/html/craft/config
-      - ./src/craft/plugins:/var/www/html/craft/plugins
-      - ./src/craft/templates:/var/www/html/craft/templates
-      # - ./src/public:/var/www/html/public
+      - ./config:/var/www/html/config
+      - ./public:/var/www/html/public
+      - ./storage:/var/www/html/storage
+      - ./templates:/var/www/html/templates
       - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - db
