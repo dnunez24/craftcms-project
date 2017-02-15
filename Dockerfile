@@ -1,8 +1,6 @@
 FROM php:7-fpm-alpine
 MAINTAINER David Nuñez <dnunez24@gmail.com>
 
-COPY composer.json composer.json
-
 RUN apk add --no-cache --virtual .build-deps \
     autoconf \
     build-base \
@@ -24,15 +22,15 @@ RUN apk add --no-cache --virtual .build-deps \
   && pecl install -o redis \
   && docker-php-ext-enable \
     imagick \
-    redis \
-  && echo "$(wget -q -O - https://composer.github.io/installer.sig)  composer-setup.php" > composer-setup.php.sig \
+    redis
+
+RUN echo "$(wget -q -O - https://composer.github.io/installer.sig)  composer-setup.php" > composer-setup.php.sig \
   && wget -q -O composer-setup.php https://getcomposer.org/installer \
   && sha384sum -c composer-setup.php.sig \
   && php composer-setup.php \
     --install-dir=/usr/local/bin \
     --filename=composer \
   && rm composer-setup.php* \
-  && composer install --prefer-dist \
   && find /var/www/html -type f -exec chmod g+w {} \; \
   && find /var/www/html -type d -exec chmod g+ws {} \; \
   && chown -R :www-data /var/www/html \

@@ -1,39 +1,24 @@
 version: '3'
 services:
-  http:
-    image: nginx:1-alpine
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - app:/var/www/html
-      - ./docker/http/craftcms.conf:/etc/nginx/conf.d/default.tmpl
-      - ./docker/http/start.sh:/start.sh
-    depends_on:
-      - app
-    networks:
-      - public
-      - front
-    environment:
-      - COMPOSE_PROJECT_NAME
-      - TZ
-    command: [/start.sh]
   app:
     build: .
+    ports:
+      - "80:80"
     volumes:
-      - app:/var/www/html
       - ./config:/var/www/html/config
+      - ./docker/app/httpd.conf:/etc/httpd.conf
+      - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./public:/var/www/html/public
       - ./storage:/var/www/html/storage
       - ./templates:/var/www/html/templates
-      - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./vendor:/var/www/html/vendor
     depends_on:
       - db
       - cache
       - session
     networks:
-      - front
-      - back
+      - public
+      - private
     environment:
       - BASE_URL="http://dev.${COMPOSE_PROJECT_NAME}.com"
       - CRAFT_ENVIRONMENT
@@ -46,6 +31,7 @@ services:
       - CACHE_PORT
       - SESSION_LOCATION="tcp://session.${COMPOSE_PROJECT_NAME}_back:${SESSION_PORT}"
       - TZ
+    command: ["/usr/sbin/httpd", "-f", "-c", "/etc/httpd.conf"]
   db:
     image: percona:5.7
     ports:
@@ -53,7 +39,7 @@ services:
     volumes:
       - ./docker/db/craftcms.cnf:/etc/mysql/conf.d/craftcms.cnf
     networks:
-      - back
+      - private
     environment:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
@@ -63,19 +49,17 @@ services:
   cache:
     image: redis:3-alpine
     networks:
-      - back
+      - private
     environment:
       - TZ
   session:
     image: redis:3-alpine
     networks:
-      - back
+      - private
     environment:
       - TZ
 volumes:
-  app:
   db:
 networks:
   public:
-  front:
-  back:
+  private:
