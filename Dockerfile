@@ -24,7 +24,8 @@ RUN apk add --no-cache --virtual .build-deps \
     imagick \
     redis
 
-RUN echo "$(wget -q -O - https://composer.github.io/installer.sig)  composer-setup.php" > composer-setup.php.sig \
+RUN mkdir -p /var/www/html \
+  && echo "$(wget -q -O - https://composer.github.io/installer.sig)  composer-setup.php" > composer-setup.php.sig \
   && wget -q -O composer-setup.php https://getcomposer.org/installer \
   && sha384sum -c composer-setup.php.sig \
   && php composer-setup.php \
@@ -35,3 +36,6 @@ RUN echo "$(wget -q -O - https://composer.github.io/installer.sig)  composer-set
   && find /var/www/html -type d -exec chmod g+ws {} \; \
   && chown -R :www-data /var/www/html \
   && apk del .build-deps
+
+WORKDIR /var/www/html
+USER www-data
