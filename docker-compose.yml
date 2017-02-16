@@ -1,23 +1,26 @@
 version: '3'
 services:
-  app:
-    build: .
+  http:
+    image: httpd:2-alpine
     ports:
       - "80:80"
+    depends_on:
+      - app
     volumes:
-      - ./config:/var/www/html/config
-      - ./docker/app/httpd.conf:/etc/httpd.conf
+      - ./src:/usr/local/apache2/htdocs
+      - ./docker/http/craftcms.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+    networks:
+      - public
+  app:
+    build: .
+    volumes:
+      - ./src:/var/www/html
       - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./public:/var/www/html/public
-      - ./storage:/var/www/html/storage
-      - ./templates:/var/www/html/templates
-      - ./vendor:/var/www/html/vendor
     depends_on:
       - db
       - cache
       - session
     networks:
-      - public
       - private
     environment:
       - BASE_URL="http://dev.${COMPOSE_PROJECT_NAME}.com"
@@ -31,7 +34,6 @@ services:
       - CACHE_PORT
       - SESSION_LOCATION="tcp://session.${COMPOSE_PROJECT_NAME}_back:${SESSION_PORT}"
       - TZ
-    command: ["/usr/sbin/httpd", "-f", "-c", "/etc/httpd.conf"]
   db:
     image: percona:5.7
     ports:
