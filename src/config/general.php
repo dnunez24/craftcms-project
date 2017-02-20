@@ -2,7 +2,7 @@
 
 return [
     '*' => [
-        'cacheMethod'           => 'redis',
+        'cacheMethod'           => 'file',
         'cpTrigger'             => 'admin',
         'enableCsrfProtection'  => true,
         'omitScriptNameInUrls'  => true,
@@ -12,6 +12,5 @@ return [
     'dev' => [
         'devMode'                       => true,
         'useCompressedJs'               => false,
-        'overridePhpSessionLocation'    => getenv('SESSION_HOST') ?: '',
     ],
 ];
