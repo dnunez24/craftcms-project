@@ -5,9 +5,11 @@ RUN apk add --no-cache --virtual .build-deps \
     autoconf \
     build-base \
     coreutils \
+    icu-dev \
     imagemagick-dev \
     libmcrypt-dev \
     wget \
+    zlib-dev \
   && apk add --no-cache \
     imagemagick \
     libmcrypt \
@@ -15,9 +17,11 @@ RUN apk add --no-cache --virtual .build-deps \
   && NPROC=$(getconf _NPROCESSORS_ONLN) \
   && docker-php-ext-install -j$NPROC \
     dom \
+    intl \
     mcrypt \
     opcache \
     pdo_mysql \
+    zip \
   && printf "\n" | pecl install -o imagick \
   && pecl install -o redis \
   && docker-php-ext-enable \
