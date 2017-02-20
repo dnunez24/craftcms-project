@@ -8,6 +8,7 @@ services:
       - app
     volumes:
       - ./src:/usr/local/apache2/htdocs
+      - ./docker/http/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/http/craftcms.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
     networks:
       - public
