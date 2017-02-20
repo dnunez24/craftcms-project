@@ -14,9 +14,7 @@ services:
       - public
       - private
     environment:
-      - HOSTNAME="dev.${COMPOSE_PROJECT_NAME}.com"
-      - APP_SERVER="app.${COMPOSE_PROJECT_NAME}_private"
-      - APP_PORT=9000
+      - COMPOSE_PROJECT_NAME
     command: [/start.sh]
   app:
     build: .

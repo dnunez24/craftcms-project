@@ -21,5 +21,5 @@ if ! exists passwd www-data; then
   adduser -u 82 -D -S -G www-data www-data 2>/dev/null
 fi
 
-envsubst '$$HOSTNAME' '$$APP_HOSTNAME' '$$APP_PORT' < /etc/nginx/conf.d/default.tmpl > /etc/nginx/conf.d/default.conf
+envsubst '$$COMPOSE_PROJECT_NAME' < /etc/nginx/conf.d/default.tmpl > /etc/nginx/conf.d/default.conf
 exec nginx -g 'daemon off;'
