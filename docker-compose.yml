@@ -32,7 +32,7 @@ services:
       - CRAFT_ENVIRONMENT
       - DB_DRIVER=mysql
       - DB_SERVER="db.${COMPOSE_PROJECT_NAME}_private"
-      - DB_NAME=${COMPOSE_PROJECT_NAME}
+      - DB_DATABASE=${COMPOSE_PROJECT_NAME}
       - DB_USER=${COMPOSE_PROJECT_NAME}
       - DB_PASSWORD=${COMPOSE_PROJECT_NAME}
       - CACHE_HOST="cache.${COMPOSE_PROJECT_NAME}_private"
@@ -48,7 +48,7 @@ services:
     networks:
       - private
     environment:
-      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}

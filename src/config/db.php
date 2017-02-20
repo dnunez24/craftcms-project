@@ -10,9 +10,9 @@
 return [
     'driver'        => getenv('DB_DRIVER') ?: 'mysql',
     'server'        => getenv('DB_SERVER') ?: 'localhost',
+    'database'      => getenv('DB_DATABASE') ?: 'craftcms',
     'user'          => getenv('DB_USER') ?: 'craftcms',
     'password'      => getenv('DB_PASSWORD') ?: 'craftcms',
-    'database'      => getenv('DB_DATABASE') ?: 'craftcms',
     'schema'        => getenv('DB_SCHEMA') ?: 'public',
     'tablePrefix'   => getenv('DB_TABLE_PREFIX') ?: '',
     'port'          => getenv('MYSQL_PORT') ?: '3306',
