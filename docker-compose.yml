@@ -23,8 +23,8 @@ services:
       - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - db
-      - cache
-      - session
+      # - cache
+      # - session
     networks:
       - private
     environment:
@@ -53,18 +53,18 @@ services:
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - TZ
-  cache:
-    image: redis:3-alpine
-    networks:
-      - private
-    environment:
-      - TZ
-  session:
-    image: redis:3-alpine
-    networks:
-      - private
-    environment:
-      - TZ
+  # cache:
+  #   image: redis:3-alpine
+  #   networks:
+  #     - private
+  #   environment:
+  #     - TZ
+  # session:
+  #   image: redis:3-alpine
+  #   networks:
+  #     - private
+  #   environment:
+  #     - TZ
 volumes:
   db:
 networks:
