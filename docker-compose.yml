@@ -28,24 +28,24 @@ services:
     networks:
       - private
     environment:
-      - BASE_URL="http://dev.${COMPOSE_PROJECT_NAME}.com"
+      - BASE_URL=http://dev.${COMPOSE_PROJECT_NAME}.com
       - CRAFT_ENVIRONMENT
       - DB_DRIVER
-      - DB_SERVER="db.${COMPOSE_PROJECT_NAME}_private"
+      - DB_SERVER=db.${COMPOSE_PROJECT_NAME}_private
       - DB_DATABASE=${COMPOSE_PROJECT_NAME}
       - DB_USER=${COMPOSE_PROJECT_NAME}
       - DB_PASSWORD=${COMPOSE_PROJECT_NAME}
       - DB_PORT
-      - CACHE_HOST="cache.${COMPOSE_PROJECT_NAME}_private"
+      - CACHE_HOST=cache.${COMPOSE_PROJECT_NAME}_private
       - CACHE_PORT
-      - SESSION_LOCATION="tcp://session.${COMPOSE_PROJECT_NAME}_private:${SESSION_PORT}"
+      - SESSION_LOCATION=tcp://session.${COMPOSE_PROJECT_NAME}_private:${SESSION_PORT}
       - TZ
   db:
     image: percona:5.7
     ports:
       - '3306:3306'
-    volumes:
-      - ./docker/db/craftcms.cnf:/etc/mysql/conf.d/craftcms.cnf
+    # volumes:
+    #   - ./docker/db/craftcms.cnf:/etc/mysql/conf.d/craftcms.cnf
     networks:
       - private
     environment:
