@@ -11,6 +11,7 @@ RUN apk add --no-cache --virtual .build-deps \
     wget \
     zlib-dev \
   && apk add --no-cache \
+    icu-libs \
     imagemagick \
     libmcrypt \
     libtool \
