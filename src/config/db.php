@@ -15,5 +15,5 @@ return [
     'password'      => getenv('DB_PASSWORD') ?: 'craftcms',
     'schema'        => getenv('DB_SCHEMA') ?: 'public',
     'tablePrefix'   => getenv('DB_TABLE_PREFIX') ?: '',
-    'port'          => getenv('MYSQL_PORT') ?: '3306',
+    'port'          => getenv('DB_PORT') ?: '3306',
 ];
