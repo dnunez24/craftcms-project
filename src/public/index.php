@@ -17,5 +17,17 @@ if (file_exists($root.'/.env')) {
 
 // Craft
 define('CRAFT_BASE_PATH', $root);
-$app = require $root.'/vendor/craftcms/cms/bootstrap/web.php';
-$app->run();
+
+$path = $root.'/vendor/craftcms/cms/app/index.php';
+
+if (!is_file($path))
+{
+	if (function_exists('http_response_code'))
+	{
+		http_response_code(503);
+	}
+
+	exit('Could not find your craft/ folder. Please ensure that <strong><code>$craftPath</code></strong> is set correctly in '.__FILE__);
+}
+
+require_once $path;
