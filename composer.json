@@ -3,7 +3,6 @@
     "description": "Craft CMS project starter",
     "license": "MIT",
     "type": "project",
-    "version": "dev-2.x",
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0.0",
