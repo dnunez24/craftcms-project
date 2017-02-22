@@ -3,24 +3,40 @@
     "description": "Craft CMS project starter",
     "license": "MIT",
     "type": "project",
-    "version": "dev-master",
-    "minimum-stability": "beta",
+    "version": "dev-2.x",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.0.0",
-        "craftcms/cms": "^3.0.0-beta.3",
-        "craftcms/plugin-installer": "^1.0.0",
-        "vlucas/phpdotenv": "^2.4.0",
-        "roave/security-advisories": "dev-master"
+        "craftcms/cms": "^2.6",
+        "craftcms/plugin-installer": "^1.0.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/pixelandtonic/Twig"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/pixelandtonic/guzzle3"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/pixelandtonic/simplepie"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/pixelandtonic/pel"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/pixelandtonic/yii"
+        }
+    ],
     "scripts": {
         "post-root-package-install": [
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ]
     },
-    "repositories": [{
-        "type": "composer",
-        "url": "https://asset-packagist.org"
-    }],
     "config": {
         "vendor-dir": "./src/vendor"
     }
