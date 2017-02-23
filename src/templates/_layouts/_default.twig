@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+
+{% include '_partials/_head' %}
+
+<body>
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+	<div id="container">
+        {% include '_partials/_header' %}
+
+		<main id="content" role="main">
+			{% block content %}
+			{% endblock %}
+		</main>
+
+        {% include '_partials/_footer' %}
+	</div>
+</body>
+
+</html>
