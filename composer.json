@@ -5,13 +5,16 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.1.0",
+        "php": "^7.0.0",
         "ext-imagick": "*",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "ext-redis": "*",
         "craftcms/cms": "^2.6",
         "craftcms/plugin-installer": "^1.0.0"
+    },
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
     },
     "repositories": [
         {
@@ -35,7 +38,7 @@
             "url": "https://github.com/pixelandtonic/yii"
         }
     ],
-    "autoloader": {
+    "autoload": {
         "classmap": [
             "scripts/composer/ScriptHandler.php"
         ]
