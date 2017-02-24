@@ -5,7 +5,11 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.0.0",
+        "php": "^7.1.0",
+        "ext-imagick": "*",
+        "ext-mbstring": "*",
+        "ext-mcrypt": "*",
+        "ext-redis": "*",
         "craftcms/cms": "^2.6",
         "craftcms/plugin-installer": "^1.0.0"
     },
@@ -31,9 +35,14 @@
             "url": "https://github.com/pixelandtonic/yii"
         }
     ],
+    "autoloader": {
+        "classmap": [
+            "scripts/composer/ScriptHandler.php"
+        ]
+    },
     "scripts": {
-        "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        "post-create-project-cmd": [
+            "Dnunez24\\composer\\ScriptHandler::createDotEnvFile"
         ]
     },
     "config": {
