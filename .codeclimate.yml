@@ -1,0 +1,19 @@
+---
+engines:
+  stylelint:
+    enabled: true
+  eslint:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+    config:
+      standard: "PSR1,PSR2"
+  phpmd:
+    enabled: true
+ratings:
+  paths:
+    - src/**
+exclude_paths:
+  - "src/public/**/*"
+  - "**/vendor/**/*"
+  - "**/node_modules/**/*"
