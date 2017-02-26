@@ -49,6 +49,7 @@
         ]
     },
     "config": {
+        "bin-dir": "./bin",
         "vendor-dir": "./src/vendor"
     }
 }
