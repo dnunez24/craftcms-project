@@ -11,7 +11,8 @@
         "ext-mcrypt": "*",
         "ext-redis": "*",
         "craftcms/cms": "^2.6",
-        "craftcms/plugin-installer": "^1.0.0"
+        "craftcms/plugin-installer": "^1.0.0",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "ext-ast": "*",
