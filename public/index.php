@@ -21,7 +21,7 @@ if (!is_file($index)) {
     }
 
     $msg = 'Could not find your craft/ folder. ';
-    $msg += 'Please ensure that <strong><code>$craftRoot</code></strong> is set correctly in '.__FILE__;
+    $msg .= 'Please ensure that <strong><code>$craftRoot</code></strong> is set correctly in '.__FILE__;
     exit($msg);
 }
 
