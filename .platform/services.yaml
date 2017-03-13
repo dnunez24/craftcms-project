@@ -7,4 +7,4 @@ cache:
 
 session:
   type: redis-persistent:3.0
-   disk: 256
+  disk: 256
