@@ -1,0 +1,29 @@
+# utf8
+
+name: app
+type: php:7.1
+build:
+  flavor: composer
+relationship:
+  db: 'db:mysql'
+  cache: 'cache:redis'
+web:
+  locations:
+    '/':
+      root: public
+      passthru: '/index.php'
+      index:
+        - "index.php"
+      scripts: false
+      allow: true
+      rules:
+        '^(.*)$':
+          passthru: '/index.php?p=$request_uri&$arg'
+disk: 2048
+mounts:
+  '/public/assets': 'shared:files/assets'
+  '/src/config': 'shared:files/config'
+  '/src/storage': 'shared:files/storage'
+hooks:
+  build: cp .platform/*.php src/config/
+  deploy:
