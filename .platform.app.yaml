@@ -4,9 +4,16 @@ name: app
 type: php:7.1
 build:
   flavor: composer
-relationship:
+runtime:
+  extensions:
+    - imagick
+    - mbstring
+    - mcrypt
+    - redis
+relationships:
   db: 'db:mysql'
   cache: 'cache:redis'
+  session: 'session:redis'
 web:
   locations:
     '/':
@@ -14,16 +21,14 @@ web:
       passthru: '/index.php'
       index:
         - "index.php"
-      scripts: false
+      scripts: true
       allow: true
       rules:
-        '^(.*)$':
-          passthru: '/index.php?p=$request_uri&$arg'
+        '^(.+)$':
+          passthru: '/index.php?p=$1'
 disk: 2048
 mounts:
-  '/public/assets': 'shared:files/assets'
-  '/src/config': 'shared:files/config'
-  '/src/storage': 'shared:files/storage'
+  '/craft': 'shared:files/craft'
 hooks:
-  build: cp .platform/*.php src/config/
-  deploy:
+  build: mkdir -p craft
+  deploy: cp -r src/* craft/

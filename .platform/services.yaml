@@ -4,7 +4,3 @@ db:
 
 cache:
   type: redis:3.0
-
-session:
-  type: redis-persistent:3.0
-  disk: 256
