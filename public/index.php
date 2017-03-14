@@ -6,14 +6,17 @@
 
 // Project root path
 $root = dirname(__DIR__);
-$craftPath = $root.'/src';
+$craftPath = realpath($root.'/craft');
 
 // Craft
 define('CRAFT_BASE_PATH', $craftPath.'/');
-define('CRAFT_VENDOR_PATH', CRAFT_BASE_PATH.'/vendor/');
-define('CRAFT_APP_PATH', CRAFT_VENDOR_PATH.'/craftcms/cms/src/');
+define('CRAFT_VENDOR_PATH', realpath(CRAFT_BASE_PATH.'vendor').'/');
+define('CRAFT_APP_PATH', realpath(CRAFT_VENDOR_PATH.'craftcms/cms/src').'/');
+define('CRAFT_FRAMEWORK_PATH', realpath(CRAFT_VENDOR_PATH.'yiisoft/yii/framework').'/');
 
-$index = $craftPath.'/vendor/craftcms/cms/src/index.php';
+require realpath(CRAFT_VENDOR_PATH.'autoload.php');
+
+$index = realpath(CRAFT_APP_PATH.'index.php');
 
 if (!is_file($index)) {
     if (function_exists('http_response_code')) {
