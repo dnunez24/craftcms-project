@@ -5,22 +5,18 @@
     "type": "project",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.0.0",
+        "php": "^7.0",
         "ext-imagick": "*",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "ext-redis": "*",
         "craftcms/cms": "^2.6",
-        "craftcms/plugin-installer": "^1.0.0",
-        "vlucas/phpdotenv": "^2.4"
+        "craftcms/plugin-installer": "^1.0.0"
     },
     "require-dev": {
-        "ext-ast": "*",
         "heroku/heroku-buildpack-php": "*",
         "squizlabs/php_codesniffer": "^2.8",
-        "etsy/phan": "^0.8.3",
-        "phpmd/phpmd": "^2.6",
-        "asm89/twig-lint": "^1.0"
+        "phpmd/phpmd": "^2.6"
     },
     "repositories": [
         {
@@ -46,7 +42,8 @@
     ],
     "autoload": {
         "classmap": [
-            "scripts/composer/ScriptHandler.php"
+            "scripts/composer/ScriptHandler.php",
+            "src/vendor/craftcms/cms/src/"
         ]
     },
     "scripts": {
