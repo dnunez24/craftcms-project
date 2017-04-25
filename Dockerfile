@@ -1,4 +1,5 @@
 FROM php:7-fpm-alpine
+FROM php:7.0-fpm-alpine
 MAINTAINER David Nuñez <dnunez24@gmail.com>
 
 RUN apk add --no-cache --virtual .build-deps \
