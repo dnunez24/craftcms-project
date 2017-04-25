@@ -19,7 +19,7 @@ class ScriptHandler
         $file = fopen($filename, 'w');
         $projectName = self::askProjectName($io);
 
-        fwrite($file, "BASE_URL=http://dev.".$projectName.".com\n");
+        fwrite($file, "BASE_URL=http://www.".$projectName.".dev\n");
         fwrite($file, "COMPOSE_PROJECT_NAME=".$projectName."\n");
         fwrite($file, "CACHE_HOST=cache.".$projectName."_private\n");
         fwrite($file, "CACHE_PORT=6379\n");
@@ -32,7 +32,6 @@ class ScriptHandler
         fwrite($file, "SESSION_LOCATION=tcp://session.".$projectName."_private:6379\n");
         fwrite($file, "TZ=UTC\n");
         fclose($file);
-
     }
 
     public static function getDotEnvFilename()
