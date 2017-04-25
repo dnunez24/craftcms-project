@@ -32,7 +32,7 @@ services:
     networks:
       - private
     environment:
-      - BASE_URL=http://dev.${COMPOSE_PROJECT_NAME}.com
+      - BASE_URL=http://www.${COMPOSE_PROJECT_NAME}.dev
       - CRAFT_ENVIRONMENT
       - DB_DRIVER
       - DB_SERVER=db.${COMPOSE_PROJECT_NAME}_private
