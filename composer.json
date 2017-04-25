@@ -42,17 +42,10 @@
     ],
     "autoload": {
         "classmap": [
-            "scripts/composer/ScriptHandler.php",
             "src/vendor/craftcms/cms/src/"
         ]
     },
-    "scripts": {
-        "post-create-project-cmd": [
-            "Dnunez24\\composer\\ScriptHandler::createDotEnvFile"
-        ]
-    },
     "config": {
-        "bin-dir": "./bin",
         "vendor-dir": "./src/vendor"
     }
 }
