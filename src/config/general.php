@@ -20,8 +20,11 @@ $config['*'] = [
     'allowAutoUpdates'              => false,
     'devMode'                       => $environment === 'dev',
     'useCompressedJs'               => $environment !== 'dev',
-    'validationKey'                 => $entropy,
 ];
+
+if (!empty($entropy)) {
+    $config['*']['validationKey'] = $entropy;
+}
 
 if ($routesEncoded) {
     $routes = json_decode(base64_decode($routesEncoded), true);
@@ -32,6 +35,10 @@ if ($routesEncoded) {
             $config[$host] = ['siteUrl' => $url];
         }
     }
+} else {
+    $url = getenv('BASE_URL');
+    $host = parse_url($url, PHP_URL_HOST);
+    $config[$host] = ['siteUrl' => $url];
 }
 
 return $config;
