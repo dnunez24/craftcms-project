@@ -7,7 +7,8 @@ services:
     depends_on:
       - app
     volumes:
-      - ./src:/var/www/html
+      - src:/var/www/html/craft
+      - public:/var/www/html/public
       - ./.docker/http/start.sh:/start.sh
       - ./.docker/http/craftcms.conf:/etc/nginx/conf.d/default.tmpl
     networks:
@@ -19,7 +20,10 @@ services:
   app:
     build: .
     volumes:
-      - ./src:/var/www/html
+      - src:/var/www/html/craft
+      - public:/var/www/html/public
+      - ./composer.json:/var/www/html/composer.json
+      - ./composer.lock:/var/www/html/composer.lock
       - ./.docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - db
@@ -38,7 +42,6 @@ services:
       - DB_PORT
       - CACHE_HOST=cache.${COMPOSE_PROJECT_NAME}_private
       - CACHE_PORT
-      - SESSION_LOCATION=tcp://session.${COMPOSE_PROJECT_NAME}_private:${SESSION_PORT}
       - TZ
   db:
     image: percona:5.7
@@ -61,13 +64,19 @@ services:
     environment:
       - TZ
   session:
-    image: redis:3-alpine
+    image: alpine:3.5
+    volumes:
+      - session:/var/www/html/craft/storage/runtime/sessions
+    command: [/bin/true]
     networks:
       - private
     environment:
       - TZ
 volumes:
   db:
+  src:
+  public:
+  session:
 networks:
   public:
   private:
