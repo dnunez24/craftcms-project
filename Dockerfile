@@ -1,4 +1,4 @@
-FROM php:7-fpm-alpine
+# FROM php:7.1-fpm
 FROM php:7.0-fpm-alpine
 MAINTAINER David Nuñez <dnunez24@gmail.com>
 
@@ -14,6 +14,7 @@ RUN apk add --no-cache --virtual .build-deps \
   && apk add --no-cache \
     icu-libs \
     imagemagick \
+    git \
     libmcrypt \
     libtool \
   && NPROC=$(getconf _NPROCESSORS_ONLN) \
