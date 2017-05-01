@@ -26,21 +26,6 @@
         "phpmd/phpmd": "^2.6"
     },
     "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/Twig"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/guzzle3"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/simplepie"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/pel"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/yii"
-    }, {
         "type": "package",
         "package": {
             "name": "fromtheoutfit/navee",
