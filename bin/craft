@@ -70,6 +70,6 @@ Yii::setPathOfAlias('plugins', CRAFT_PLUGINS_PATH);
 
 $configPath = CRAFT_APP_PATH.'/etc/config/console.php';
 $app = Yii::createApplication('Craft\ConsoleApp', $configPath);
-$app->commandRunner->addCommands(Craft\Craft::getPathOfAlias('application.console.commands.*'));
+$app->commandRunner->addCommands(Craft\Craft::getPathOfAlias('application.consolecommands.*'));
 
 $app->run();
