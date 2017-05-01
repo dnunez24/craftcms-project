@@ -7,8 +7,8 @@ services:
     depends_on:
       - app
     volumes:
-      - src:/var/www/html/craft
-      - public:/var/www/html/public
+      - ./craft:/var/www/html/craft
+      - ./public:/var/www/html/public
       - ./.docker/http/start.sh:/start.sh
       - ./.docker/http/craftcms.conf:/etc/nginx/conf.d/default.tmpl
     networks:
@@ -20,10 +20,12 @@ services:
   app:
     build: .
     volumes:
-      - src:/var/www/html/craft
-      - public:/var/www/html/public
+      - ./bin:/var/www/html/bin
+      - ./craft:/var/www/html/craft
+      - ./public:/var/www/html/public
+      - ./src/plugins:/var/www/html/src/plugins
       - ./composer.json:/var/www/html/composer.json
-      - ./composer.lock:/var/www/html/composer.lock
+      # - ./composer.lock:/var/www/html/composer.lock
       - ./.docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - db
@@ -33,7 +35,16 @@ services:
       - private
     environment:
       - BASE_URL=http://www.${COMPOSE_PROJECT_NAME}.dev
-      - CRAFT_ENVIRONMENT
+      - CRAFT_BASE_PATH=/var/www/html/craft/
+      - CRAFT_APP_PATH=$CRAFT_VENDOR_PATH/craftcms/cms/src/
+      - CRAFT_VENDOR_PATH=$CRAFT_BASE_PATH/vendor/
+      - CRAFT_FRAMEWORK_PATH=$CRAFT_VENDOR_PATH/yiisoft/yii/framework/
+      - CRAFT_CONFIG_PATH=$CRAFT_BASE_PATH/config/
+      - CRAFT_PLUGINS_PATH=$CRAFT_BASE_PATH/plugins/
+      - CRAFT_STORAGE_PATH=$CRAFT_BASE_PATH/storage/
+      - CRAFT_TEMPLATES_PATH=$CRAFT_BASE_PATH/templates/
+      - CRAFT_TRANSLATIONS_PATH=$CRAFT_BASE_PATH/translations/
+      - CRAFT_ENVIRONMENT=dev
       - DB_DRIVER
       - DB_SERVER=db.${COMPOSE_PROJECT_NAME}_private
       - DB_DATABASE=${COMPOSE_PROJECT_NAME}
@@ -74,8 +85,6 @@ services:
       - TZ
 volumes:
   db:
-  src:
-  public:
   session:
 networks:
   public:
