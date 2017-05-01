@@ -1,5 +1,10 @@
 .DS_Store
+.eslintcache
 /.env
-/src/config/license.key
-vendor/
+/craft/assets
+/craft/config/license.key
+/craft/plugins
+/craft/templates
 node_modules/
+/public/assets/
+vendor/
