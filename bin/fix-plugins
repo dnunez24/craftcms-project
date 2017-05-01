@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for plugin in "$@"; do
+  if [ -n "$(ls -A "craft/plugins/$plugin/$plugin")" ]; then
+    mv craft/plugins/$plugin/$plugin/* craft/plugins/$plugin/
+    rm -rf craft/plugins/$plugin/$plugin
+  fi
+done
