@@ -13,11 +13,11 @@
         "craftcms/cms": "2.*",
         "boboldehampsink/import": "^0.8",
         "boboldehampsink/export": "^0.5",
-        "fromtheoutfit/navee": "^1.3.0",
         "nystudio107/retour": "^1.0.19",
         "nystudio107/seomatic": "^1.1.46",
         "madebykind/craft.labelenvironment": "^2.1.1",
         "pennebaker/craftcms-thearchitect": "1.5.5.3",
+        "supercool/buttonbox": "^1.5",
         "craft-cli/cli": "dev-master"
     },
     "require-dev": {
@@ -54,12 +54,24 @@
             }
         }
     }, {
-        "type": "path",
-        "url": "./src/plugins/mix"
+        "type": "package",
+        "package": {
+            "name": "supercool/buttonbox",
+            "type": "craft-plugin",
+            "version": "1.5.0",
+            "dist": {
+                "url": "https://github.com/supercool/buttonbox/archive/1.5.0.zip",
+                "type": "zip"
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            }
+        }
     }],
     "autoload": {
         "classmap": [
-            "craft/vendor/craftcms/cms/src/"
+            "craft/vendor/craftcms/cms/src/",
+            "scripts/composer/ScriptHandler.php"
         ]
     },
     "config": {
@@ -77,8 +89,12 @@
     "extra": {
         "installer-paths": {
             "craft/plugins/thearchitect/": ["pennebaker/craftcms-thearchitect"],
-            "craft/plugins/environmentlabel/": ["madebykind/craft.labelenvironment"],
-            "craft/plugins/mix/": ["dnunez24/craft-laravel-mix"]
+            "craft/plugins/environmentlabel/": ["madebykind/craft.labelenvironment"]
+        },
+        "craft-plugin-map": {
+            "buttonbox/buttonbox": "buttonbox",
+            "thearchitect/thearchitect": "thearchitect",
+            "environmentlabel/environmentlabel": "environmentlabel"
         }
     }
 }

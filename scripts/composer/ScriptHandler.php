@@ -4,6 +4,7 @@ namespace Dnunez24\composer;
 
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
+use Composer\Util\Filesystem;
 
 class ScriptHandler
 {
@@ -32,6 +33,51 @@ class ScriptHandler
         fwrite($file, "SESSION_LOCATION=tcp://session.".$projectName."_private:6379\n");
         fwrite($file, "TZ=UTC\n");
         fclose($file);
+    }
+
+    public static function remapCraftPlugins(Event $event)
+    {
+        $extra = $event->getComposer()->getPackage()->getExtra();
+        $pluginMap = $extra['craft-plugin-map'];
+
+        if (empty($pluginMap)) {
+            return;
+        }
+
+        $io = $event->getIO();
+        $fs = new Filesystem();
+        $pluginsPath = self::getProjectRoot().'/craft/plugins/';
+
+        foreach ($pluginMap as $src => $dest) {
+            $srcDir = $fs->normalizePath($pluginsPath.$src);
+            $destDir = $fs->normalizePath($pluginsPath.$dest);
+
+            if (is_dir($srcDir)) {
+                $io->write("Moving $srcDir to $destDir");
+                $fs->rename($srcDir, $destDir);
+            }
+        }
+    }
+
+    protected static function getProjectRoot()
+    {
+        return dirname(dirname(__DIR__));
+    }
+
+    protected static function getProjectPath($path)
+    {
+        return realpath(self::getProjectRoot().$path);
+    }
+
+    protected static function getPluginPath($path)
+    {
+        $base = self::getProjectPath('craft/plugins');
+
+        if ($fs->isAbsolutePath($path)) {
+            return $path;
+        }
+
+        return rtrim($base, '/') . '/' . ltrim($path, '/');
     }
 
     public static function getDotEnvFilename()
