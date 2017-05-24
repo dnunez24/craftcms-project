@@ -18,7 +18,7 @@
         "nystudio107/seomatic": "^1.1.46",
         "madebykind/craft.labelenvironment": "^2.1.1",
         "pennebaker/craftcms-thearchitect": "1.5.5.3",
-        "dnunez24/craft-laravel-mix": "*"
+        "craft-cli/cli": "dev-master"
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "*",
@@ -63,6 +63,7 @@
         ]
     },
     "config": {
+        "bin-dir": "bin",
         "vendor-dir": "craft/vendor"
     },
     "scripts": {
