@@ -10,7 +10,7 @@ $craftPath = realpath($root.'/craft');
 
 // Craft
 define('CRAFT_BASE_PATH', $craftPath.'/');
-define('CRAFT_VENDOR_PATH', realpath(CRAFT_BASE_PATH.'vendor').'/');
+define('CRAFT_VENDOR_PATH', realpath($root.'/vendor').'/');
 define('CRAFT_APP_PATH', realpath(CRAFT_VENDOR_PATH.'craftcms/cms/src').'/');
 define('CRAFT_FRAMEWORK_PATH', realpath(CRAFT_VENDOR_PATH.'yiisoft/yii/framework').'/');
 
