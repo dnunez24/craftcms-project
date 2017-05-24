@@ -79,10 +79,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "bin/fix-plugins thearchitect environmentlabel"
+            "Dnunez24\\composer\\ScriptHandler::remapCraftPlugins"
         ],
         "post-update-cmd": [
-            "bin/fix-plugins thearchitect environmentlabel"
+            "Dnunez24\\composer\\ScriptHandler::remapCraftPlugins"
         ]
     },
     "extra": {
