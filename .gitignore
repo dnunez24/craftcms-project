@@ -6,5 +6,7 @@
 /craft/plugins
 /craft/templates
 node_modules/
+mix-manifest.json
+mix*.js
 /public/assets/
 vendor/
