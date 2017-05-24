@@ -1,6 +1,7 @@
 .DS_Store
 .eslintcache
 /.env
+/bin
 /craft/assets
 /craft/config/license.key
 /craft/plugins
