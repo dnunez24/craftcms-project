@@ -1,3 +1,4 @@
+const path = require('path');
 const { mix } = require('laravel-mix');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
@@ -16,6 +17,7 @@ const postCssConfig = function postCssConfig() {
 
 mix.sass('src/assets/styles/main.scss', 'public/assets/styles')
   .options({
+    publicPath: 'public',
     postCss: postCssConfig(),
   });
 
@@ -32,3 +34,12 @@ if (mix.config.inProduction) {
 mix.copyDirectory('src/templates', 'craft/templates');
 
 mix.browserSync('www.testcraft.dev');
+
+// mix.webpackConfig({
+//   devServer: {
+//     contentBase: 'public'
+//   },
+//   output: {
+//     path: path.resolve(__dirname, 'public'),
+//   },
+// });
