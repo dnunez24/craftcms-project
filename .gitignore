@@ -9,6 +9,6 @@
 hot
 node_modules/
 mix-manifest.json
-mix*.js
+mix*.js*
 /public/assets/
 vendor/
