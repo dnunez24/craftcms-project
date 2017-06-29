@@ -38,11 +38,12 @@ class ScriptHandler
     public static function remapCraftPlugins(Event $event)
     {
         $extra = $event->getComposer()->getPackage()->getExtra();
-        $pluginMap = $extra['craft-plugin-map'];
 
-        if (empty($pluginMap)) {
+        if (!array_key_exists('craft-plugin-map', $extra)) {
             return;
         }
+
+        $pluginMap = $extra['craft-plugin-map'];
 
         $io = $event->getIO();
         $fs = new Filesystem();
