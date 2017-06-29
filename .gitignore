@@ -5,7 +5,6 @@
 /craft/assets
 /craft/config/license.key
 /craft/plugins
-/craft/templates
 hot
 node_modules/
 mix-manifest.json
