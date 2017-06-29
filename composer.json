@@ -3,81 +3,29 @@
     "description": "Craft CMS project starter",
     "license": "MIT",
     "type": "project",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": "^7.0",
         "ext-imagick": "*",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "ext-redis": "*",
-        "craftcms/cms": "2.*",
         "boboldehampsink/import": "^0.8",
         "boboldehampsink/export": "^0.5",
-        "nystudio107/retour": "^1.0.19",
-        "nystudio107/seomatic": "^1.1.46",
-        "madebykind/craft.labelenvironment": "^2.1.1",
-        "pennebaker/craftcms-thearchitect": "1.5.5.3",
+        "crodas/text-rank": "@dev",
+        "dnunez24/craft-laravel-mix": "^0.1",
+        "nerds-and-company/schematic": "^3.8",
+        "nystudio107/retour": "^1.0",
+        "nystudio107/seomatic": "^1.1",
         "supercool/buttonbox": "^1.5",
-        "craft-cli/cli": "dev-master"
+        "craft-cli/cli": "^0.13"
     },
     "require-dev": {
-        "heroku/heroku-buildpack-php": "*",
         "squizlabs/php_codesniffer": "^2.8",
         "phpmd/phpmd": "^2.6"
     },
-    "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/Twig"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/guzzle3"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/simplepie"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/pel"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/pixelandtonic/yii"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/dnunez24/craft-cli-bootstrap"
-    }, {
-        "type": "vcs",
-        "url": "https://github.com/dnunez24/craft-cli"
-    }, {
-        "type": "package",
-        "package": {
-            "name": "madebykind/craft.labelenvironment",
-            "type": "craft-plugin",
-            "version": "2.1.1",
-            "dist": {
-                "url": "https://github.com/madebykind/craft.labelenvironment/archive/2.1.1.zip",
-                "type": "zip"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            }
-        }
-    }, {
-        "type": "package",
-        "package": {
-            "name": "supercool/buttonbox",
-            "type": "craft-plugin",
-            "version": "1.5.0",
-            "dist": {
-                "url": "https://github.com/supercool/buttonbox/archive/1.5.0.zip",
-                "type": "zip"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            }
-        }
-    }],
     "autoload": {
         "classmap": [
-            "craft/vendor/craftcms/cms/src/",
             "scripts/composer/ScriptHandler.php"
         ]
     },
@@ -94,13 +42,9 @@
     },
     "extra": {
         "installer-paths": {
-            "craft/plugins/thearchitect/": ["pennebaker/craftcms-thearchitect"],
-            "craft/plugins/environmentlabel/": ["madebykind/craft.labelenvironment"]
-        },
-        "craft-plugin-map": {
-            "buttonbox/buttonbox": "buttonbox",
-            "thearchitect/thearchitect": "thearchitect",
-            "environmentlabel/environmentlabel": "environmentlabel"
+            "craft/plugins/mix": [
+                "dnunez24/craft-laravel-mix"
+            ]
         }
     }
 }
