@@ -1,88 +1,95 @@
-version: '3'
+version: '3.1'
+
 services:
   http:
-    image: nginx:1.11.8
-    ports:
-      - "80:80"
     depends_on:
       - app
-    volumes:
-      - .:/var/www/html
-      - ./.docker/http/start.sh:/start.sh
-      - ./.docker/http/craftcms.conf:/etc/nginx/conf.d/default.tmpl
+    image: nginx:1.12-alpine
     networks:
-      - public
-      - private
-    environment:
-      - COMPOSE_PROJECT_NAME
-    command: [/start.sh]
+      public:
+    ports:
+      - "80:80"
+    volumes:
+      - craft:/var/www/craft
+      - public:/var/www/html
+
   app:
     build: .
-    volumes:
-      - .:/var/www/html
-      - ./.docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
-      - db
       - cache
+      - db
       - session
+    env_file: .env
+    image: craftcms:latest
     networks:
-      - private
-    environment:
-      - BASE_URL=http://www.${COMPOSE_PROJECT_NAME}.dev
-      - CRAFT_BASE_PATH=/var/www/html/craft/
-      - CRAFT_APP_PATH=$CRAFT_VENDOR_PATH/craftcms/cms/src/
-      - CRAFT_VENDOR_PATH=$CRAFT_BASE_PATH/vendor/
-      - CRAFT_FRAMEWORK_PATH=$CRAFT_VENDOR_PATH/yiisoft/yii/framework/
-      - CRAFT_CONFIG_PATH=$CRAFT_BASE_PATH/config/
-      - CRAFT_PLUGINS_PATH=$CRAFT_BASE_PATH/plugins/
-      - CRAFT_STORAGE_PATH=$CRAFT_BASE_PATH/storage/
-      - CRAFT_TEMPLATES_PATH=$CRAFT_BASE_PATH/templates/
-      - CRAFT_TRANSLATIONS_PATH=$CRAFT_BASE_PATH/translations/
-      - CRAFT_ENVIRONMENT=dev
-      - DB_DRIVER
-      - DB_SERVER=db.${COMPOSE_PROJECT_NAME}_private
-      - DB_DATABASE=${COMPOSE_PROJECT_NAME}
-      - DB_USER=${COMPOSE_PROJECT_NAME}
-      - DB_PASSWORD=${COMPOSE_PROJECT_NAME}
-      - DB_PORT
-      - CACHE_HOST=cache.${COMPOSE_PROJECT_NAME}_private
-      - CACHE_PORT
-      - TZ
-      - PHP_XDEBUG_ENABLED=1
-      - XDEBUG_CONFIG=remote_host=10.254.254.254
-      - XDG_CONFIG_HOME=/var/www/html
+      public:
+      private:
+    secrets:
+      - source: craft_validation_key_v1
+        target: craft_validation_key
+      - source: mysql_root_password_v1
+        target: mysql_root_password
+      - source: mysql_password_v1
+        target: mysql_password
+    volumes:
+      - craft:/var/www/craft
+      - public:/var/www/html
+      # - ./db.php:/var/www/craft/config/db.php
+      # - ./general.php:/var/www/craft/config/general.php
+      - ./rediscache.php:/var/www/craft/config/rediscache.php
+      # - ./php.ini:/usr/local/etc/php/craftcms.ini
+    #   - ./craft/plugins:/var/www/craft/plugins
+    #   - ./craft/storage:/var/www/craft/storage
+    #   - ./craft/templates:/var/www/craft/templates
+    #   - ./craft/translations:/var/www/craft/translations
+    #   - ./public:/var/www/html
+
   db:
-    image: mariadb:10.1.22
-    ports:
-      - '3306:3306'
+    env_file: .env
+    image: mariadb:10.1
+    networks:
+      private:
+    secrets:
+      - source: mysql_root_password_v1
+        target: mysql_root_password
+      - source: mysql_password_v1
+        target: mysql_password
     volumes:
       - db:/var/lib/mysql
-    networks:
-      - private
-    environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - TZ
+
   cache:
-    image: redis:3.0
+    command: ["redis-server", "--appendonly", "yes"]
+    image: redis:3.2-alpine
     networks:
-      - private
-    environment:
-      - TZ
-  session:
-    image: debian:jessie
+      private:
     volumes:
-      - session:/var/www/html/craft/storage/runtime/sessions
-    command: [/bin/true]
-    networks:
-      - private
-    environment:
-      - TZ
-volumes:
-  db:
+      - cache:/data
+
   session:
+    command: ["redis-server", "--appendonly", "yes"]
+    image: redis:3.2-alpine
+    networks:
+      private:
+    volumes:
+      - session:/data
+
 networks:
   public:
+    driver: overlay
   private:
+    driver: overlay
+
+secrets:
+  craft_validation_key_v1:
+    external: true
+  mysql_root_password_v1:
+    external: true
+  mysql_password_v1:
+    external: true
+
+volumes:
+  cache:
+  craft:
+  db:
+  public:
+  session:
