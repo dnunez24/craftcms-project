@@ -1,45 +1,22 @@
-const path = require('path');
 const { mix } = require('laravel-mix');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
+const dotenv = require('dotenv');
 
-const postCssConfig = function postCssConfig() {
-  const config = [
-    autoprefixer(),
-  ];
+dotenv.config();
 
-  if (mix.config.inProduction) {
-    config.push(cssnano());
-  }
-
-  return config;
-};
-
-mix.sass('src/assets/styles/main.scss', 'public/assets/styles')
+mix.setPublicPath('public')
   .options({
-    publicPath: 'public',
-    postCss: postCssConfig(),
-  });
+    purifyCss: true,
+  })
+  .sass('src/assets/styles/main.scss', 'public/styles')
+  .js('src/assets/scripts/main.js', 'public/scripts')
+  .sourceMaps()
+  .extract([
+    'vue',
+  ])
+  .copy('src/assets/fonts', 'public/fonts')
+  .copy('src/assets/images', 'public/images')
+  .browserSync(process.env.CRAFT_SITE_URL);
 
-mix.js('src/assets/scripts/main.js', 'public/assets/scripts')
-  .sourceMaps();
-  // .extract([
-    // 'vue',
-  // ]);
-
-if (mix.config.inProduction) {
+if (mix.inProduction()) {
   mix.version();
 }
-
-mix.copyDirectory('src/templates', 'craft/templates');
-
-mix.browserSync('www.testcraft.dev');
-
-// mix.webpackConfig({
-//   devServer: {
-//     contentBase: 'public'
-//   },
-//   output: {
-//     path: path.resolve(__dirname, 'public'),
-//   },
-// });
