@@ -1,18 +1,14 @@
 <?php
 
-/**
- * Craft web bootstrap file
- */
-
-// Project root path
-$root = dirname(__DIR__);
-$craftPath = realpath($root.'/craft');
-
-// Craft
-define('CRAFT_BASE_PATH', $craftPath.'/');
-define('CRAFT_VENDOR_PATH', realpath($root.'/vendor').'/');
-define('CRAFT_APP_PATH', realpath(CRAFT_VENDOR_PATH.'craftcms/cms/src').'/');
-define('CRAFT_FRAMEWORK_PATH', realpath(CRAFT_VENDOR_PATH.'yiisoft/yii/framework').'/');
+define('CRAFT_BASE_PATH', getenv('CRAFT_BASE_PATH') ?: realpath(dirname(__DIR__).'/craft/'));
+define('CRAFT_APP_PATH', getenv('CRAFT_APP_PATH') ?: CRAFT_BASE_PATH.'/app/');
+define('CRAFT_VENDOR_PATH', getenv('CRAFT_VENDOR_PATH') ?: CRAFT_APP_PATH.'/vendor/');
+define('CRAFT_FRAMEWORK_PATH', getenv('CRAFT_FRAMEWORK_PATH') ?: CRAFT_APP_PATH.'/framework/');
+define('CRAFT_CONFIG_PATH', getenv('CRAFT_CONFIG_PATH') ?: CRAFT_BASE_PATH.'/config/');
+define('CRAFT_STORAGE_PATH', getenv('CRAFT_STORAGE_PATH') ?: CRAFT_BASE_PATH.'/storage/');
+define('CRAFT_PLUGINS_PATH', getenv('CRAFT_PLUGINS_PATH') ?: CRAFT_BASE_PATH.'/plugins/');
+define('CRAFT_TEMPLATES_PATH', getenv('CRAFT_TEMPLATES_PATH') ?: CRAFT_BASE_PATH.'/templates/');
+define('CRAFT_TRANSLATIONS_PATH', getenv('CRAFT_TRANSLATIONS_PATH') ?: CRAFT_BASE_PATH.'/translations/');
 
 require realpath(CRAFT_VENDOR_PATH.'autoload.php');
 
