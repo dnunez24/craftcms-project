@@ -17,7 +17,6 @@
         "nerds-and-company/schematic": "^3.8",
         "nystudio107/retour": "^1.0",
         "nystudio107/seomatic": "^1.1",
-        "supercool/buttonbox": "^1.5",
         "craft-cli/cli": "^0.13"
     },
     "require-dev": {
@@ -34,13 +33,14 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "Dnunez24\\composer\\ScriptHandler::remapCraftPlugins"
+            "Dnunez24\\Composer\\ScriptHandler::remapCraftPlugins"
         ],
         "post-update-cmd": [
-            "Dnunez24\\composer\\ScriptHandler::remapCraftPlugins"
+            "Dnunez24\\Composer\\ScriptHandler::remapCraftPlugins"
         ]
     },
     "extra": {
+        "craft-plugins-path": "craft/plugins",
         "installer-paths": {
             "craft/plugins/mix": [
                 "dnunez24/craft-laravel-mix"
