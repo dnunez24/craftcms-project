@@ -1,6 +1,6 @@
 <?php
 
-namespace Copious\Composer;
+namespace Dnunez24\Composer;
 
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
@@ -8,6 +8,9 @@ use Composer\Util\Filesystem;
 
 class ScriptHandler
 {
+    const CRAFT_PLUGINS_MAP_KEY = 'craft-plugins-map';
+    const CRAFT_PLUGINS_PATH_KEY = 'craft-plugins-path';
+
     /**
      * Re-maps Craft plugin files to new location (to handle plugins with
      * incompatible directory structure)
@@ -21,6 +24,12 @@ class ScriptHandler
         $fs = new Filesystem();
         $extra = self::getExtraConfig($event);
         $pluginsPath = self::getPluginsPath($extra);
+
+        if (!$pluginsPath) {
+            $io->write('extra.craft-plugins-path not defined. Skipping plugin remap.');
+            return;
+        }
+
         $pluginsMap = self::getPluginsMap($extra);
 
         foreach ($pluginsMap as $src => $dest) {
@@ -60,11 +69,11 @@ class ScriptHandler
 
     protected static function getPluginsPath(array $extra)
     {
-        $pluginsPath = $extra['craft-plugins-path'];
-
-        if (!isset($pluginsPath)) {
-            throw new Exception("'extra.craft-plugins-path' composer option must be set.");
+        if (!array_key_exists(self::CRAFT_PLUGINS_PATH_KEY, $extra)) {
+            return false;
         }
+
+        $pluginsPath = $extra[self::CRAFT_PLUGINS_PATH_KEY];
 
         return self::getProjectPath($pluginsPath).'/';
     }
@@ -77,11 +86,11 @@ class ScriptHandler
      */
     protected static function getPluginsMap(array $extra)
     {
-        $pluginsMap = $extra['craft-plugins-map'];
-
-        if (!$pluginsMap) {
+        if (!array_key_exists(self::CRAFT_PLUGINS_MAP_KEY, $extra)) {
             return [];
         }
+
+        $pluginsMap = $extra[self::CRAFT_PLUGINS_MAP_KEY];
 
         return $pluginsMap;
     }
