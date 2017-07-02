@@ -1,44 +1,24 @@
 <?php
 
-$environment = getenv('CRAFT_ENVIRONMENT');
-$routesEncoded = getenv('PLATFORM_ROUTES');
-$applicationName = getenv('PLATFORM_APPLICATION_NAME');
-$entropy = getenv('PLATFORM_PROJECT_ENTROPY');
+$devMode                    = $environment === 'dev';
+$cpTrigger                  = getenv('CRAFT_CP_TRIGGER')        ?: 'admin';
+$environment                = getenv('CRAFT_ENVIRONMENT')       ?: 'production';
+$overrideSessionLocation    = getenv('CRAFT_OVERRIDE_SESSION')  ?: 'auto';
+$validationKey              = getenv('CRAFT_VALIDATION_KEY')    ?: null;
 
-$config = [];
-
-$config['*'] = [
-    'allowAutoUpdates'              => false,
-    'appId'                         => 'craftcms',
-    'cacheMethod'                   => 'redis',
-    'cpTrigger'                     => 'admin',
-    'enableCsrfProtection'          => true,
-    'errorTemplatePrefix'           => '_errors/',
-    'omitScriptNameInUrls'          => true,
-    'usePathInfo'                   => true,
-    'overridePhpSessionLocation'    => true,
-    'allowAutoUpdates'              => false,
-    'devMode'                       => $environment === 'dev',
-    'useCompressedJs'               => $environment !== 'dev',
+return [
+    '*' => [
+        'allowAutoUpdates'              => false,
+        'appId'                         => 'craftcms',
+        'cacheMethod'                   => 'redis',
+        'cpTrigger'                     => $cpTrigger,
+        'devMode'                       => $devMode,
+        'enableCsrfProtection'          => true,
+        'errorTemplatePrefix'           => '_errors/',
+        'omitScriptNameInUrls'          => true,
+        'overridePhpSessionLocation'    => $overrideSessionLocation,
+        'preventUserEnumeration'        => true,
+        'usePathInfo'                   => true,
+        'validationKey'                 => $validationKey,
+    ]
 ];
-
-if (!empty($entropy)) {
-    $config['*']['validationKey'] = $entropy;
-}
-
-if ($routesEncoded) {
-    $routes = json_decode(base64_decode($routesEncoded), true);
-
-    foreach ($routes as $url => $route) {
-        if ($route['type'] === 'upstream' && $route['upstream'] === $applicationName) {
-            $host = parse_url($url, PHP_URL_HOST);
-            $config[$host] = ['siteUrl' => $url];
-        }
-    }
-} else {
-    $url = getenv('BASE_URL');
-    $host = parse_url($url, PHP_URL_HOST);
-    $config[$host] = ['siteUrl' => $url];
-}
-
-return $config;

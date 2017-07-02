@@ -1,6 +1,8 @@
 <?php
 
-define('CRAFT_BASE_PATH', getenv('CRAFT_BASE_PATH') ?: realpath(dirname(__DIR__).'/craft/'));
+$craftRoot = realpath(dirname(__DIR__).'/craft/');
+
+define('CRAFT_BASE_PATH', getenv('CRAFT_BASE_PATH') ?: $craftRoot);
 define('CRAFT_APP_PATH', getenv('CRAFT_APP_PATH') ?: CRAFT_BASE_PATH.'/app/');
 define('CRAFT_FRAMEWORK_PATH', getenv('CRAFT_FRAMEWORK_PATH') ?: CRAFT_APP_PATH.'/framework/');
 define('CRAFT_CONFIG_PATH', getenv('CRAFT_CONFIG_PATH') ?: CRAFT_BASE_PATH.'/config/');
@@ -11,7 +13,6 @@ define('CRAFT_TRANSLATIONS_PATH', getenv('CRAFT_TRANSLATIONS_PATH') ?: CRAFT_BAS
 define('CRAFT_VENDOR_PATH', getenv('CRAFT_VENDOR_PATH') ?: CRAFT_APP_PATH.'/vendor/');
 
 require realpath(CRAFT_VENDOR_PATH.'autoload.php');
-
 $index = realpath(CRAFT_APP_PATH.'index.php');
 
 if (!is_file($index)) {
