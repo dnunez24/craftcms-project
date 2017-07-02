@@ -16,8 +16,9 @@ relationships:
   db: 'db:mysql'
   cache: 'cache:redis'
   session: 'session:redis'
-nodejs:
-  yarn: "*"
+dependencies:
+  nodejs:
+    yarn: "*"
 web:
   locations:
     '/':
