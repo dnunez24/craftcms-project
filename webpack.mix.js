@@ -11,7 +11,7 @@ mix.setPublicPath('public')
   .js('src/assets/scripts/main.js', 'public/scripts')
   .sourceMaps()
   .extract([
-    'vue',
+    // 'vue',
   ])
   .copy('src/assets/fonts', 'public/fonts')
   .copy('src/assets/images', 'public/images')
