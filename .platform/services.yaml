@@ -1,6 +1,10 @@
 db:
-  type: mysql:10.1
+  type: mysql:10.2
   disk: 2048
 
 cache:
   type: redis:3.0
+
+session:
+  type: redis-persistent:3.0
+  disk: 512

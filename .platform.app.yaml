@@ -1,7 +1,9 @@
 # utf8
 
-name: app
+name: craft
 type: php:7.1
+access:
+  ssh: admin
 build:
   flavor: composer
 runtime:
@@ -14,6 +16,8 @@ relationships:
   db: 'db:mysql'
   cache: 'cache:redis'
   session: 'session:redis'
+nodejs:
+  yarn: "*"
 web:
   locations:
     '/':
@@ -26,9 +30,20 @@ web:
       rules:
         '^(.+)$':
           passthru: '/index.php?p=$1'
+variables:
+  php:
+    disable_functions: phpinfo
+    display_errors: Off
+    memory_limit: 256M
+    'session.save_handler': redis
 disk: 2048
 mounts:
-  '/craft': 'shared:files/craft'
+  '/craft/storage': 'shared:files/craft/storage'
 hooks:
-  build: mkdir -p craft
-  deploy: cp -r src/* craft/
+  build: |
+    yarn install
+    yarn run production
+  deploy: |
+    php -f scripts/platform.sh/deploy.php
+    bin/craft clear:cache
+    curl -If https://localhost/
