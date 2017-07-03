@@ -1,40 +1,32 @@
 <?php
 
-$appDir = getenv('PLATFORM_APP_DIR');
-$appName = getenv('PLATFORM_APPLICATION_NAME');
-$docRoot = getenv('PLATFORM_DOCUMENT_ROOT');
-$entropy = getenv('PLATFORM_PROJECT_ENTROPY');
-$environment = getenv('PLATFORM_ENVIRONMENT');
-$relationships = getenv('PLATFORM_RELATIONSHIPS');
-$routesEncoded = getenv('PLATFORM_ROUTES');
+$appDir         = getenv('PLATFORM_APP_DIR');
+$appName        = getenv('PLATFORM_APPLICATION_NAME');
+$docRoot        = getenv('PLATFORM_DOCUMENT_ROOT');
+$entropy        = getenv('PLATFORM_PROJECT_ENTROPY');
+$environment    = getenv('PLATFORM_ENVIRONMENT');
+$relationships  = getenv('PLATFORM_RELATIONSHIPS');
+$routesEncoded  = getenv('PLATFORM_ROUTES');
 
+// Decode relationships and routes
 $routes = json_decode(base64_decode($routesEncoded), true);
 $relationships = json_decode(base64_decode($relationships), true);
-$databaseArray = $relationships['database'];
-$redisArray = $relationships['redis'];
 
-foreach ($redisArray as $endpoint) {
-    if (strpos($endpoint['host'], 'session') === false) {
-        $cacheHost = $endpoint['host'];
-        $cachePort = $endpoint['port'];
-        continue;
-    }
+// Get services from relationships
+$db = $relationships['db'];
+$cache = $relationships['cache'];
+$session = $relationships['session'];
 
-    $sessionHost = $endpoint['host'];
-    $sessionPort = $endpoint['port'];
-}
-
-foreach ($databaseArray as $endpoint) {
-    if (empty($endpoint['query']['is_master'])) {
-        continue;
-    }
-
-    $dbName = $endpoint['path'];
-    $dbHost = $endpoint['host'];
-    $dbPassword = $endpoint['password'];
-    $dbUser = $endpoint['username'];
-    $dbPort = $endpoint['port'];
-}
+// Get service properties
+$cacheHost   = $cache[0]['host'];
+$cachePort   = $cache[0]['port'];
+$dbName      = $db[0]['path'];
+$dbHost      = $db[0]['host'];
+$dbPassword  = $db[0]['password'];
+$dbUser      = $db[0]['username'];
+$dbPort      = $db[0]['port'];
+$sessionHost = $session[0]['host'];
+$sessionPort = $session[0]['port'];
 
 foreach ($routes as $url => $route) {
     if ($route['type'] === 'upstream' && $route['upstream'] === $appName) {
