@@ -1,16 +1,16 @@
 <?php
 
-$appDir         = getenv('PLATFORM_APP_DIR');
-$appName        = getenv('PLATFORM_APPLICATION_NAME');
-$docRoot        = getenv('PLATFORM_DOCUMENT_ROOT');
-$entropy        = getenv('PLATFORM_PROJECT_ENTROPY');
-$environment    = getenv('PLATFORM_ENVIRONMENT');
-$relationships  = getenv('PLATFORM_RELATIONSHIPS');
-$routesEncoded  = getenv('PLATFORM_ROUTES');
+$appDir                 = getenv('PLATFORM_APP_DIR');
+$appName                = getenv('PLATFORM_APPLICATION_NAME');
+$docRoot                = getenv('PLATFORM_DOCUMENT_ROOT');
+$entropy                = getenv('PLATFORM_PROJECT_ENTROPY');
+$environment            = getenv('PLATFORM_ENVIRONMENT');
+$relationshipsEncoded   = getenv('PLATFORM_RELATIONSHIPS');
+$routesEncoded          = getenv('PLATFORM_ROUTES');
 
 // Decode relationships and routes
 $routes = json_decode(base64_decode($routesEncoded), true);
-$relationships = json_decode(base64_decode($relationships), true);
+$relationships = json_decode(base64_decode($relationshipsEncoded), true);
 
 // Get services from relationships
 $db = $relationships['db'];
