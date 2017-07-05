@@ -2,6 +2,7 @@
 
 $craftRoot = realpath(dirname(__DIR__).'/craft');
 
+define('CRAFT_ENVIRONMENT', getenv('CRAFT_ENVIRONMENT') ?: 'production');
 define('CRAFT_BASE_PATH', getenv('CRAFT_BASE_PATH') ?: $craftRoot.'/');
 define('CRAFT_APP_PATH', getenv('CRAFT_APP_PATH') ?: CRAFT_BASE_PATH.'app/');
 define('CRAFT_FRAMEWORK_PATH', getenv('CRAFT_FRAMEWORK_PATH') ?: CRAFT_APP_PATH.'framework/');
