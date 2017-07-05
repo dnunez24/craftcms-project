@@ -30,7 +30,7 @@ $sessionPort = $session[0]['port'];
 
 foreach ($routes as $url => $route) {
     if ($route['type'] === 'upstream' && $route['upstream'] === $appName) {
-        $siteUrl =  $url;
+        $siteUrl = $url;
     }
 }
 
@@ -52,34 +52,48 @@ switch ($environment) {
         break;
 };
 
+$initDir = $appDir.'/init';
 $craftDir = $appDir.'/craft';
 $vendorDir = $appDir.'/vendor';
+$configDir = $craftDir.'/config';
 
-# Craft path variables
-putenv("CRAFT_BASE_PATH=$craftDir/");
-putenv("CRAFT_APP_PATH=$vendorDir/craftcms/cms/src/");
-putenv("CRAFT_FRAMEWORK_PATH=$vendorDir/yiisoft/yii/framework/");
-putenv("CRAFT_CONFIG_PATH=$craftDir/config/");
-putenv("CRAFT_PLUGINS_PATH=$craftDir/plugins/");
-putenv("CRAFT_STORAGE_PATH=$craftDir/storage/");
-putenv("CRAFT_TEMPLATES_PATH=$craftDir/templates/");
-putenv("CRAFT_TRANSLATIONS_PATH=$craftDir/translations/");
-putenv("CRAFT_VENDOR_PATH=$vendorDir/");
+# Copy config files from build init directory to read/write config directory
+`cp -R $initDir/config/* $configDir/`;
 
-# Craft config variables
-putenv("CRAFT_DEV_MODE=$devMode");
-putenv("CRAFT_ENVIRONMENT=$craftEnv");
-putenv("CRAFT_OVERRIDE_SESSION=$overrideSession");
-putenv("CRAFT_SITE_URL=$siteUrl");
-putenv("CRAFT_VALIDATION_KEY=$entropy");
+function reconfigure($name, $confDir, $conf)
+{
+    $file = "$confDir/$name.php";
+    $oldConf = include $file;
 
-# Cache variables
-putenv("CACHE_HOST=$cacheHost");
-putenv("CACHE_PORT=$cachePort");
+    echo "$name (old):\n";
+    echo var_export($oldConf)."\n";
 
-# Database variables
-putenv("MYSQL_DATABASE=$dbName");
-putenv("MYSQL_HOST=$dbHost");
-putenv("MYSQL_PASSWORD=$dbPassword");
-putenv("MYSQL_PORT=$dbPort");
-putenv("MYSQL_USER=$dbUser");
+    $newConf = array_merge($oldConf, $conf);
+
+    echo "$name (new):\n";
+    echo var_export($newConf)."\n";
+
+    $newFileContent = "<?php\n\nreturn " . var_export($newConf, true) . ";";
+    file_put_contents($file, $newFileContent);
+}
+
+reconfigure('general', $configDir, [
+    'appId' => $appName,
+    'devMode' => $devMode,
+    'overridePhpSessionLocation' => $overrideSession,
+    'siteUrl' => $siteUrl,
+    'validationKey' => $entropy,
+]);
+
+reconfigure('db', $configDir, [
+    'database' => $dbName,
+    'password' => $dbPassword,
+    'port' => $dbPort,
+    'server' => $dbHost,
+    'user' => $dbUser,
+]);
+
+reconfigure('rediscache', $configDir, [
+    'hostname' => $cacheHost,
+    'port' => $cachePort,
+]);
